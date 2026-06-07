@@ -1,10 +1,41 @@
 ---
 title: Configuration
-description: Configuring MeshCore repeaters and room servers
+description: Configuring MeshCore repeaters and room servers — UK radio settings
 ---
 # Configuration
 
 Configuration methods differ by firmware type.
+
+## Radio Settings (North East UK)
+
+The North East England MeshCore network uses the **narrow preset** within the 868 MHz band:
+
+| Parameter | Value | Notes |
+|-----------|-------|-------|
+| **Frequency** | **869.618 MHz** | Within UK 869.4–869.65 MHz band |
+| **Bandwidth** | **62.5 kHz** | Narrow preset — fits between ISM band interference |
+| **Spreading Factor** | **SF8** | Good balance of range and data rate |
+| **Coding Rate** | **5** | Standard forward error correction |
+
+Set these via serial CLI (repeater/room server) or the smartphone app (companion):
+
+```
+set freq 869.618
+set radio 869.618,62.5,8,5
+```
+
+After changing radio params, **reboot** for them to take effect.
+
+> **Why these settings?** Since October 2025, many MeshCore regions have moved to the narrow preset (BW62.5, SF7–9). This gives a lower noise floor, better SNR, and faster transmissions by fitting between interference in the ISM band. SF8 was chosen for the North East as the best balance — longer range than SF7, faster airtime than SF9.
+
+### Transmit Power
+
+The appropriate transmit power depends on your device. As a guideline:
+
+- **Most ESP32 boards (Heltec V3, T-Deck):** start at 10–14 dBm
+- **High-power modules (Station G2, E22-900M30S):** consult manufacturer specs — wrong settings can damage hardware
+
+Set with: `set tx <dBm>`
 
 ## Companion Firmware
 
@@ -18,14 +49,16 @@ Repeaters and room servers use a **CLI over USB serial** or **remote administrat
 
 ### Accessing the CLI
 
-- **USB serial** — connect the device to a computer and use the Console at [meshcore.io/flasher](https://meshcore.io/flasher), or a terminal app (picocom, PuTTY, screen)
+- **USB serial** — connect the device to a computer and use the Console at [flasher.meshcore.io](https://flasher.meshcore.io), or a terminal app (picocom, screen, PuTTY)
+- **Web config tool** at [config.meshcore.io](https://config.meshcore.io)
 - **Remote RF** — use the smartphone app's remote management feature, or a T-Deck with remote administration unlocked
 
 ### Essential Commands
 
 | Command | Description |
 |---------|-------------|
-| `set freq <MHz>` | Set operating frequency (e.g. `set freq 868.0`) |
+| `set freq <MHz>` | Set operating frequency (e.g. `set freq 869.618`) |
+| `set radio <freq>,<bw>,<sf>,<cr>` | Set all radio params at once |
 | `get freq` | Show current frequency |
 | `set tx <dBm>` | Set transmit power |
 | `get tx` | Show current transmit power |
@@ -33,43 +66,21 @@ Repeaters and room servers use a **CLI over USB serial** or **remote administrat
 | `set flood.max <n>` | Set maximum flood hop count |
 | `set name <name>` | Set node name |
 | `set location <lat> <lon>` | Set fixed location |
-| `get location` | Show current location |
+| `password <new-password>` | Change admin password |
 | `time` | Show or set the node's clock |
 | `start ota` | Enter OTA update mode |
 | `get stats` | Show node statistics |
 | `get neighbors` | Show known neighbouring nodes |
 | `get config` | Show all configuration values |
 
-A full reference is available at [docs.meshcore.io/cli_commands](https://docs.meshcore.io/cli_commands).
-
-### Frequency and Region
-
-MeshCore uses ISM bands:
-
-| Region | Frequency |
-|--------|-----------|
-| UK / Europe | 868 MHz band (e.g. 868.0 MHz) |
-| USA / Canada | 915 MHz band (e.g. 910.525 MHz) |
-| Australia / NZ | 915 MHz band |
-
-Many regions now use the "narrow" preset: **BW62.5, SF7-9, CR5**. Check with your local MeshCore community for the recommended settings.
-
-### Transmit Power
-
-The appropriate transmit power depends on your device's hardware. Refer to the hardware documentation for safe limits. As a general guideline:
-
-- Most ESP32 boards: start at 10–14 dBm and increase as needed
-- High-power modules (Station G2, E22-900M30S): consult the manufacturer's specifications — incorrect settings can damage the hardware
+Full reference: [docs.meshcore.io/cli_commands](https://docs.meshcore.io/cli_commands)
 
 ### Remote Administration
 
 To administer a repeater or room server over RF:
 
-1. Authenticate with the device's **admin password**
+1. Authenticate with the device's **admin password** (default: `password`)
 2. Send CLI commands as direct messages
 3. The device processes them and responds over the air
 
-The default admin password is set during first-time setup. Change it using:
-```
-set password <new-password>
-```
+Change the default password with: `password <new-password>`

@@ -2,9 +2,12 @@
 title: Sidebar
 ---
 - [🏠 Home](/home)
-- [ℹ️ About](/about)
-- [📡 Hardware](/hardware)
-- [🗺️ Coverage](/coverage)
-- [🔌 Join](/join)
-- [🛠️ Configuration](/configuration)
-- [❓ FAQ](/faq)
+- 📖 **About**
+  - [ℹ️ About MeshCore](/about)
+  - [❓ FAQ](/faq)
+- 🚀 **Getting Connected**
+  - [🔌 Join the Network](/join)
+  - [📡 Hardware](/hardware)
+- 📡 **Network**
+  - [🗺️ Coverage](/coverage)
+  - [🛠️ Configuration](/configuration)
