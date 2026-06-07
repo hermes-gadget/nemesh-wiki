@@ -1,71 +1,111 @@
 ---
 title: FAQ
-description: Frequently asked questions about mesh networking and MeshCore
+description: Frequently asked questions about MeshCore
 ---
 # Frequently Asked Questions
 
 ## General
 
-### What is the range of a mesh node?
+### What is MeshCore?
 
-Typical range is 1-5 km in urban environments and 10-20 km with clear line of sight. Range depends on antenna, power, and environmental factors. See the [Coverage](/coverage) page for more details.
+MeshCore is an open-source (MIT) C++ library for multi-hop packet routing over LoRa radio. It provides secure, decentralised text messaging without the internet. Unlike flood-based mesh systems, it uses **path-based routing** for efficiency.
 
-### Do I need internet access to use the mesh?
+### What do I need to start?
 
-No! The mesh network operates independently of the internet. Nodes communicate directly over LoRa radio. Internet is only needed if you want to bridge the mesh to other networks via an MQTT gateway.
+- A supported LoRa device (see [Hardware](/hardware))
+- A computer with Chrome/Edge to flash firmware via [meshcore.io/flasher](https://meshcore.io/flasher)
+- A client app: [Android](https://play.google.com/store/apps/details?id=com.liamcottle.meshcore.android), [iOS](https://apps.apple.com/us/app/meshcore/id6742354151), or [web](https://app.meshcore.nz)
 
-### Can I send messages to someone on the other side of the world?
+If you have a T-Deck with MeshCore Ultra firmware, it works standalone — no phone needed.
 
-If both meshes have MQTT gateways connected to the same broker, yes. Messages flow mesh → MQTT → internet → MQTT → mesh. Without gateways, the mesh is limited to radio range (multi-hop).
+### Does MeshCore cost money?
+
+All radio firmware is free and open source. The smartphone app uses a freemium model (some advanced features like remote server administration over RF have a wait timer that can be removed via in-app purchase). The T-Deck firmware is free; deeper map zoom and server administration features may require a paid unlock.
+
+### What frequencies does MeshCore use?
+
+UK/Europe use the 868 MHz band. USA, Canada, Australia, and New Zealand use the 915 MHz band. Many regions have moved to a "narrow" preset: **BW62.5, SF7-9, CR5**.
+
+### What is an advert?
+
+An advert (advertisement) is a periodic broadcast where a node announces its identity (public key, name, and optionally location) to nearby nodes. This is how nodes discover each other.
+
+### Is there a hop limit?
+
+Yes. Repeaters have a configurable maximum flood hop count (`set flood.max`). This prevents messages from propagating indefinitely.
+
+## Firmware Types
+
+### What firmware types are available?
+
+- **Companion (BLE)** — connects to smartphone app over Bluetooth
+- **Companion (USB)** — connects to web client or computer over USB Serial
+- **Companion (Wi-Fi)** — connects over Wi-Fi (requires compiling with your SSID/password)
+- **Repeater** — forwards packets to extend network range
+- **Room Server** — a BBS-style server for message history
+- **Sensor** — remote sensor node for telemetry
+
+### Do MeshCore clients repeat?
+
+**No.** Only repeaters and room servers (with repeat enabled) forward packets. Clients are endpoints only. This is central to MeshCore's messaging-first, low-airtime design.
 
 ## Hardware
 
-### What's the cheapest way to get started?
+### How many devices do I need?
 
-A Heltec LoRa 32 V3 board costs around £20-25. It has a small OLED display and built-in LoRa radio. You'll also need a USB cable and a 868/915 MHz antenna.
+One device with companion firmware + a smartphone is enough to start messaging. For extended range, add a second device as a repeater placed in a high location.
 
-### Can I build my own node?
+### Can I use a Raspberry Pi to flash a device?
 
-Yes. Any ESP32 board with an SX1262 or SX1276 LoRa module can run MeshCore. The [Hardware](/hardware) page lists compatible options.
+Yes. Install esptool (ESP32) or adafruit-nrfutil (nRF52) and follow the instructions on [meshcore.io/flasher](https://meshcore.io/flasher).
 
-### How long does the battery last?
+## Routing
 
-With a 3000 mAh 18650 cell, expect 1-3 days depending on transmit frequency. Reducing transmit power and increasing the position update interval can extend battery life significantly.
+### How does MeshCore routing work?
 
-## Network
+The first message to a destination uses **flood routing** — all repeaters retransmit it. The destination replies with a **delivery report** listing the path the message took. Subsequent messages use that **direct path**, with only the repeaters on the path retransmitting.
 
-### How many nodes can the mesh support?
+### What happens if a path breaks?
 
-MeshCore networks can scale to hundreds of nodes. The practical limit depends on channel congestion — more nodes mean more routing traffic. Gateways and careful channel planning help with scaling.
+The sender retries up to 3 times using the stored path, then falls back to flood routing on the last retry. If the destination is reachable via a different repeater, a new path is learned.
 
-### What happens if a node goes offline?
+### Do public/private channels always flood?
 
-The mesh automatically re-routes around it. Messages intended for nodes reachable only through the offline node will queue until an alternative path appears.
-
-### Is the mesh encrypted?
-
-Optionally. You can set a pre-shared encryption key that all nodes in your mesh must use. Without encryption, messages are sent in plain text (though still over the air using LoRa modulation).
+Yes — group channels have no defined path, so they always flood. Repeaters can limit flood propagation with `set flood.max`.
 
 ## Troubleshooting
 
-### My node doesn't see any other nodes
+### My device doesn't see any other nodes
 
-1. Check that your node is on the correct channel and region
-2. Verify there are other nodes within range
-3. Check your antenna connection
-4. Ensure your node has been running long enough to send heartbeats (2-5 minutes)
-5. Try moving to a higher location
+1. Check the frequency matches other nodes in your area
+2. Check your antenna connection
+3. Wait 2–5 minutes for adverts to propagate
+4. Try a higher location
+5. Verify other nodes are actually within range
 
-### Messages are getting through but very slowly
+### How do I connect via Bluetooth?
 
-- Lower the spreading factor (SF7-9 instead of SF11-12)
-- Reduce the number of repeaters if too many are covering the same area
-- Check for channel congestion — too many nodes transmitting simultaneously
+Flash **Companion (BLE)** firmware. The default pairing code is `123456`.
 
-### Poor signal quality (low RSSI/SNR)
+### My repeater's clock is wrong
 
-- Check antenna connection and quality
-- Try a different antenna with better gain
-- Elevate the node
-- Remove obstacles between nodes
-- Increase transmit power (within regulatory limits)
+Use the `time` command via USB serial console, or use remote administration over RF to set the correct Unix timestamp.
+
+### How do I update firmware over the air?
+
+- **nRF52 devices (RAK, T114, T1000-E):** Use the nRF DFU app. Put the device in OTA mode with `start ota`, then use the DFU app to upload the firmware ZIP.
+- **ESP32 devices (Heltec V3, etc.):** Use `start ota` to start a Wi-Fi hotspot named `MeshCore OTA`. Connect to it and upload the firmware at `http://192.168.4.1/update`.
+
+## Other
+
+### Is MeshCore open source?
+
+Most firmware is open source under the MIT license: [github.com/meshcore-dev/MeshCore](https://github.com/meshcore-dev/MeshCore). The T-Deck firmware and the native mobile apps are not open source.
+
+### Are there other MeshCore-related projects?
+
+Yes — there is a growing ecosystem of community projects. See [awesome-meshcore](https://github.com/samuk/awesome-meshcore) for a maintained list.
+
+### Does MeshCore support ATAK?
+
+ATAK is not currently on the roadmap. MeshCore's client-no-repeat design and dynamic routing make it less suited to the high-frequency position reporting that ATAK requires.

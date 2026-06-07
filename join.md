@@ -1,72 +1,72 @@
 ---
 title: Join
-description: How to join a MeshCore mesh network
+description: How to get started with MeshCore
 ---
-# Join the Mesh
+# Join
 
-Joining a MeshCore network is straightforward. You need a compatible device, the MeshCore firmware installed, and a basic configuration.
+Here's how to join a MeshCore mesh network.
 
-## Step 1: Get Hardware
+## 1. Get a Device
 
-Choose a compatible ESP32 LoRa board. The easiest starting point is a **Heltec T-Deck** or **T-Beam**, which come with the radio, antenna, and battery support built in. See the [Hardware](/hardware) page for recommendations.
+You need a supported LoRa device. Good options for beginners:
 
-## Step 2: Flash the Firmware
+- **LilyGo T-Deck** — all-in-one handheld with keyboard and screen
+- **Heltec V3** — compact development board
+- **RAK4631** — modular WisBlock (nRF52)
 
-MeshCore firmware can be installed via:
+See the [Hardware](/hardware) page for more options. Visit the [MeshCore Flasher](https://meshcore.io/flasher) for the full list of supported boards.
 
-### Web Flasher (Easiest)
+## 2. Flash the Firmware
 
-1. Connect your device to your computer via USB
-2. Open the MeshCore web flasher at [meshcore.flasher](https://meshcore.github.io/flasher)
-3. Select your device model
-4. Click **Flash** and wait for the process to complete
-5. Disconnect and reconnect the device
+Go to [meshcore.io/flasher](https://meshcore.io/flasher) in a browser (Chrome or Edge recommended for Web Serial support).
 
-### PlatformIO (Advanced)
+1. Connect your device via USB
+2. Select your device model
+3. Choose a firmware type:
+   - **Companion (BLE)** — for use with the smartphone app over Bluetooth
+   - **Companion (USB)** — for use with the web client or a computer
+   - **Repeater** — to extend network range (always-on)
+   - **Room Server** — for message storage and retrieval
+4. Click **Flash**
 
-For developers or those who want the latest nightly builds:
+For first-time setup, a Companion (BLE) firmware is the easiest starting point.
 
-```bash
-git clone https://github.com/OpenMeshCore/MeshCore.git
-cd MeshCore
-pio run -e your_board -t upload
+## 3. Connect a Client
+
+### Smartphone App
+
+Download the MeshCore app:
+
+- **Android:** [Google Play](https://play.google.com/store/apps/details?id=com.liamcottle.meshcore.android)
+- **iOS:** [App Store](https://apps.apple.com/us/app/meshcore/id6742354151)
+
+Pair with your companion device over Bluetooth (pairing code: `123456`).
+
+### Web Client
+
+Open [app.meshcore.nz](https://app.meshcore.nz) and connect via USB Serial.
+
+### T-Deck
+
+If you have a T-Deck with MeshCore Ultra firmware, it works as a standalone communicator — no phone needed.
+
+## 4. Configure Your Region
+
+After flashing, use the **Console** on the flasher website or the smartphone app to set your region's frequency:
+
+```
+set freq 868.0
 ```
 
-## Step 3: Configure Your Node
+Or use [config.meshcore.io](https://config.meshcore.io) for repeaters and room servers connected via USB.
 
-After flashing, the device creates a Wi-Fi access point called `MeshCore-XXXX`. Connect to it and open `http://192.168.4.1` in your browser.
+## 5. Start Messaging
 
-### Basic Settings
+Once configured, your device will start sending **adverts** — periodic announcements that tell nearby nodes you exist. You should start seeing other nodes appear within range.
 
-| Setting | Description |
-|---------|-------------|
-| **Node Name** | A human-readable name for your node |
-| **Location** | Enable GPS or manually set your approximate coordinates |
-| **Region** | Set your regulatory region for the correct frequency |
-| **Channel** | Leave as default unless instructed otherwise |
-| **Encryption Key** | Set a mesh-wide encryption key if the network uses one |
+### For Repeaters and Room Servers
 
-### MQTT Gateway (Optional)
-
-If your node has Wi-Fi, you can configure it as an MQTT gateway to bridge the mesh to the internet:
-
-1. Connect your node to your home Wi-Fi
-2. Set the MQTT server address (provided by your network operator)
-3. Messages from the mesh will now be available via MQTT
-
-## Step 4: Connect and Test
-
-Once configured, your node will start broadcasting its presence. Within a few minutes, you should see other nodes appear if you're in range.
-
-### What to Check
-
-- LED blinking pattern indicates mesh activity
-- The display (if your device has one) shows nearby nodes
-- Try sending a message to a known node or a broadcast to the mesh
-- Check signal strength indicators (RSSI/SNR) for link quality
-
-## Step 5: Extend the Network
-
-The most valuable thing you can do is simply keep your node powered on. Every active node strengthens the mesh and extends coverage for everyone.
-
-Consider becoming a gateway operator if you have a reliable internet connection — this bridges the local mesh with the wider world.
+These are managed via:
+- **USB serial console** — use the [flasher Console](https://meshcore.io/flasher) or a terminal app (picocom, PuTTY)
+- **Remote administration over RF** — using the smartphone app or a T-Deck (some features may require an unlock code)
+- **Web config tool** at [config.meshcore.io](https://config.meshcore.io)

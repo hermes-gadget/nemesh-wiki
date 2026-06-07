@@ -1,72 +1,79 @@
 ---
 title: Hardware
-description: Supported hardware for MeshCore mesh networking nodes
+description: Supported hardware for running MeshCore
 ---
 # Hardware
 
-MeshCore runs on ESP32-based devices with LoRa radios. Here are the most common and recommended boards.
+MeshCore runs on a variety of LoRa-equipped devices. For the most up-to-date list, visit the [MeshCore Flasher](https://meshcore.io/flasher) which lists all supported boards with ready-to-flash firmware.
 
-## Recommended Devices
+## Popular Devices
 
-### Heltec T-Deck
+### LilyGo T-Deck / T-Deck Plus
 
-The T-Deck is a handheld device with a built-in keyboard and display, making it ideal as a portable mesh communicator.
+A handheld device with keyboard and display — a complete off-grid communicator out of the box.
 
 - **MCU:** ESP32-S3
 - **LoRa:** SX1262 (868/915 MHz)
-- **Display:** 2.13-inch e-ink or 2.8-inch TFT
-- **Input:** QWERTY keyboard, trackball
-- **Battery:** Built-in 18650 support
-- **Extras:** GPS, microSD slot, Wi-Fi/Bluetooth
+- **Display:** 2.13-inch e-ink (T-Deck) or 2.8-inch TFT (T-Deck Plus)
+- **Input:** QWERTY keyboard
+- **Extras:** GPS, microSD slot, speaker, Wi-Fi/Bluetooth
 
-### Heltec T-Beam
+### Heltec V3
 
-A popular GPS-enabled LoRa board, often used for tracking and stationary nodes.
+A compact LoRa development board, usable as a companion or repeater.
 
-- **MCU:** ESP32
-- **LoRa:** SX1262 (868/915 MHz)
-- **GPS:** NEO-6M / NEO-8M
-- **Battery:** 18650 support
-- **Extras:** Wi-Fi, Bluetooth
-
-### Heltec LoRa 32 (V2/V3)
-
-A compact development board, good for stationary nodes and IoT applications.
-
-- **MCU:** ESP32 (V2) / ESP32-S3 (V3)
-- **LoRa:** SX1276 (V2) / SX1262 (V3)
-- **Display:** 0.96-inch OLED
-- **Extras:** Wi-Fi, Bluetooth
-
-### LilyGo T-ECHO
-
-A compact handheld with LoRa and a small display.
-
-- **MCU:** ESP32
+- **MCU:** ESP32-S3
 - **LoRa:** SX1262
-- **Display:** 1.54-inch e-ink
-- **Battery:** Built-in 2000mAh
-- **Extras:** Wi-Fi, Bluetooth
+- **Display:** 0.96-inch OLED
+- **Extras:** Wi-Fi/Bluetooth
+
+### RAK4631 (WisBlock)
+
+An nRF52-based LoRA board in modular form factor. Commonly used as a companion or repeater.
+
+- **MCU:** nRF52840
+- **LoRa:** SX1262
+- **Extras:** Bluetooth only (no Wi-Fi)
+
+### Heltec T114
+
+A compact nRF52 device with LoRa and optional GPS.
+
+- **MCU:** nRF52840
+- **LoRa:** SX1262
+- **Extras:** Bluetooth, optional GPS
+
+### Seeed Studio T1000-E
+
+A tiny, battery-powered LoRa tracker.
+
+- **MCU:** nRF52840
+- **LoRa:** SX1262
+- **Battery:** Built-in rechargeable
+- **Extras:** Bluetooth
+
+### LilyGo T-Pager
+
+A LoRa pager-style device with a small display.
+
+- **MCU:** ESP32-S3
+- **LoRa:** SX1262
+- **Display:** Round LCD
+- **Extras:** Wi-Fi/Bluetooth, vibration motor
 
 ## Antennas
 
 Antenna choice significantly affects range:
 
-| Frequency | Recommended Antenna | Typical Range |
-|-----------|-------------------|---------------|
-| 868 MHz | Quarter-wave whip (17.3 cm) | 1-5 km (urban), 10-20 km (LOS) |
-| 915 MHz | Quarter-wave whip (16.4 cm) | 1-5 km (urban), 10-20 km (LOS) |
-| Dual-band | Half-wave dipole | 2-8 km (urban) |
+- **Quarter-wave whip** (≈17 cm for 868 MHz, ≈16 cm for 915 MHz) — good all-rounder
+- **Half-wave dipole** — better gain, narrower pattern
+- **High-gain directional** — for fixed point-to-point links
 
-Higher-gain antennas improve range but have a narrower radiation pattern. For mobile nodes, a quarter-wave whip is a good compromise.
+A poorly matched or low-quality antenna will severely limit performance. Use an antenna designed for your operating frequency.
 
 ## Power
 
-- **USB power:** 5 V via USB-C or micro-USB
-- **Battery:** Most boards support single-cell 18650 Li-Ion (3.7 V)
-- **Power consumption:** ~80-120 mA idle, ~200-400 mA transmitting
-- **Battery life:** 1-3 days typical with a 3000 mAh cell
-
-## Enclosures
-
-For outdoor or permanent installations, use a weatherproof enclosure rated at least IP65. The antenna should be mounted externally for best performance.
+- Most ESP32 boards are powered via USB (5 V)
+- Many boards support a single-cell 18650 Li-Ion battery (3.7 V)
+- nRF52-based devices (RAK, T114, T1000-E) are very power-efficient and can run for extended periods on battery
+- Actual battery life varies greatly with transmit frequency, power level, and device type

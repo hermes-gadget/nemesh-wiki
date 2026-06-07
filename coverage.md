@@ -1,55 +1,43 @@
 ---
 title: Coverage
-description: Understanding mesh network coverage and how to improve it
+description: How MeshCore network coverage works
 ---
 # Coverage
 
-Mesh network coverage depends on the density and placement of nodes. Unlike a cellular network with tall towers, a mesh network's reach grows with every additional node.
+MeshCore coverage depends on the placement of nodes and repeaters. Unlike a cellular network with tall towers, a mesh network's reach grows with every additional repeater.
 
-## How Coverage Works
+## How It Works
 
-Each node in the mesh has a radio range of roughly 1-5 km in urban environments and 10-20 km with clear line of sight. When nodes overlap, they form a connected mesh. Messages hop through intermediate nodes to reach their destination, so coverage is the union of all individual node ranges.
+Each device has a radio range — typically a few hundred metres to several kilometres depending on terrain, antenna, and power. **Clients do not repeat.** Only repeaters (and room servers with repeat enabled) forward traffic.
 
-```
-    [Node A] --- 3 km --- [Node B] --- 2 km --- [Node C]
-        |                     |
-     4 km                 5 km
-        |                     |
-    [Node D]             [Node E]
-```
-
-In this example, Node C can reach Node B (2 km), and Node B can reach Node A (3 km). Node C can talk to Node A even though they're 5 km apart, because Node B relays the message.
+This means coverage is determined by the reach and placement of repeaters, not the number of clients.
 
 ## Factors Affecting Range
 
 | Factor | Impact |
 |--------|--------|
-| **Line of sight** | Best — range up to 20 km |
-| **Urban environment** | Buildings reduce range to 1-3 km |
-| **Indoor placement** | Walls and structures reduce range significantly |
-| **Antenna quality** | A good antenna can double effective range |
+| **Line of sight** | Best case — maximum range |
+| **Urban environment** | Buildings and obstacles reduce range significantly |
+| **Antenna** | Quality, tuning, and height matter more than power |
 | **Antenna height** | Higher placement = better range |
-| **Weather** | Heavy rain can attenuate signals by 10-20% |
-| **Radio interference** | Other devices on the same frequency band |
+| **Spreading Factor** | Higher SF = longer range, slower data, more airtime |
+| **Bandwidth** | Narrower BW fits between interference but reduces data rate |
 
 ## Improving Coverage
 
-The single best way to improve mesh coverage is to add more nodes. Each new node extends the mesh and creates alternative routing paths.
+- **Add repeaters** — each repeater extends the mesh and provides alternative routing paths
+- **Elevate antennas** — place repeaters as high as practical (roof height or higher)
+- **Use line of sight** — position repeaters with clear paths to neighbouring nodes
+- **Use the right antenna** — a good antenna tuned for your frequency is the most effective upgrade
 
-### Tips
+## Coverage vs MeshTopology
 
-- **Elevate antennas** — place them as high as practical, ideally at roof height or higher
-- **Use line of sight** — position nodes to have a clear path to nearby nodes
-- **Dense areas** — in urban areas, place nodes in upper-floor windows for best results
-- **Gateways** — a node with internet backhaul extends the mesh globally via MQTT
-- **Directional antennas** — for point-to-point links between fixed locations
+MeshCore is not a flood-based system. It uses path-based routing: messages follow a specific sequence of repeaters to their destination. This means:
 
-## Checking Coverage
+- Coverage is not simply "all nodes within range of any node" — routes must exist through repeaters
+- A client within radio range of a repeater has coverage to any destination that repeater can reach
+- Without a repeater nearby, a client can only communicate with other clients within direct radio range
 
-Use the MeshCore mobile app or web dashboard to see live node positions and signal strengths. Nodes that haven't been heard from in a while appear as offline.
+## Hop Limit
 
-### Key Metrics
-
-- **SNR (Signal-to-Noise Ratio)** — higher is better; above 0 dB is usable, above 10 dB is excellent
-- **RSSI (Received Signal Strength Indicator)** — closer to 0 is stronger; -80 dBm is good, -120 dBm is marginal
-- **Hop count** — the number of relays your message travelled through; lower is faster and more reliable
+Repeaters have a configurable maximum hop count (`set flood.max`). This prevents messages from propagating indefinitely and lets repeater administrators control their network.

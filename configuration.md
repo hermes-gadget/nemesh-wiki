@@ -1,90 +1,75 @@
 ---
 title: Configuration
-description: Detailed configuration guide for MeshCore nodes
+description: Configuring MeshCore repeaters and room servers
 ---
 # Configuration
 
-This guide covers the detailed configuration options available on a MeshCore node. For basic setup, see the [Join](/join) guide.
+Configuration methods differ by firmware type.
 
-## Accessing the Config Panel
+## Companion Firmware
 
-1. Power on your node
-2. Connect to the `MeshCore-XXXX` Wi-Fi access point
-3. Open `http://192.168.4.1` in a browser
-4. The configuration panel opens automatically
+Companion (BLE/USB) devices have minimal configurable settings — most configuration is done through the connected client app (smartphone or web).
 
-## Network Settings
+The main setting to check is the **frequency**, which must match your region and the rest of your mesh. Set it via the flasher Console or the smartphone app.
 
-### Node Name
+## Repeater and Room Server Configuration
 
-A human-readable identifier that appears to other mesh nodes. Choose something unique but recognisable, like your callsign or location.
+Repeaters and room servers use a **CLI over USB serial** or **remote administration over RF**. There is no web-based admin panel on the device itself.
 
-### Mesh Channel
+### Accessing the CLI
 
-Nodes must be on the same channel to communicate. Channels correspond to specific LoRa frequencies within your region's ISM band.
+- **USB serial** — connect the device to a computer and use the Console at [meshcore.io/flasher](https://meshcore.io/flasher), or a terminal app (picocom, PuTTY, screen)
+- **Remote RF** — use the smartphone app's remote management feature, or a T-Deck with remote administration unlocked
 
-- **Default:** Channel 0 (usually 868.1 MHz in EU, 915.0 MHz in US)
-- **Changing channels** requires all nodes in your mesh to use the same channel
-- **Bandwidth:** Standard channels use 125 kHz; some regions support 250 kHz for higher data rates
+### Essential Commands
 
-### Region Setting
+| Command | Description |
+|---------|-------------|
+| `set freq <MHz>` | Set operating frequency (e.g. `set freq 868.0`) |
+| `get freq` | Show current frequency |
+| `set tx <dBm>` | Set transmit power |
+| `get tx` | Show current transmit power |
+| `set repeat on/off` | Enable or disable packet repeating |
+| `set flood.max <n>` | Set maximum flood hop count |
+| `set name <name>` | Set node name |
+| `set location <lat> <lon>` | Set fixed location |
+| `get location` | Show current location |
+| `time` | Show or set the node's clock |
+| `start ota` | Enter OTA update mode |
+| `get stats` | Show node statistics |
+| `get neighbors` | Show known neighbouring nodes |
+| `get config` | Show all configuration values |
 
-Sets the regulatory domain for frequency and power limits:
+A full reference is available at [docs.meshcore.io/cli_commands](https://docs.meshcore.io/cli_commands).
 
-| Region | Frequency | Max Power |
-|--------|-----------|-----------|
-| EU868 | 863-870 MHz | 14 dBm (25 mW) |
-| US915 | 902-928 MHz | 22 dBm (158 mW) |
-| AU915 | 915-928 MHz | 22 dBm (158 mW) |
-| CN470 | 470-510 MHz | 13 dBm (20 mW) |
+### Frequency and Region
 
-### Encryption Key
+MeshCore uses ISM bands:
 
-An optional pre-shared key that encrypts all mesh traffic. If your network uses encryption, all nodes must share the same key.
+| Region | Frequency |
+|--------|-----------|
+| UK / Europe | 868 MHz band (e.g. 868.0 MHz) |
+| USA / Canada | 915 MHz band (e.g. 910.525 MHz) |
+| Australia / NZ | 915 MHz band |
 
-- **Min length:** 8 characters
-- **Recommended:** 16+ characters
-- **Leave blank** for an open (unencrypted) mesh
-
-## Radio Settings
+Many regions now use the "narrow" preset: **BW62.5, SF7-9, CR5**. Check with your local MeshCore community for the recommended settings.
 
 ### Transmit Power
 
-Higher power increases range but drains the battery faster. Start with the regional default and adjust based on your needs.
+The appropriate transmit power depends on your device's hardware. Refer to the hardware documentation for safe limits. As a general guideline:
 
-- **Typical range:** 2-22 dBm
-- **Battery-saving:** 10-14 dBm for short-range urban meshes
-- **Maximum range:** 20-22 dBm for long-distance links
+- Most ESP32 boards: start at 10–14 dBm and increase as needed
+- High-power modules (Station G2, E22-900M30S): consult the manufacturer's specifications — incorrect settings can damage the hardware
 
-### Spreading Factor
+### Remote Administration
 
-Controls the trade-off between range and data rate:
+To administer a repeater or room server over RF:
 
-| SF | Range | Data Rate | Air Time |
-|----|-------|-----------|----------|
-| SF7 | Short | Highest | Fastest |
-| SF9 | Medium | Medium | Medium |
-| SF12 | Longest | Lowest | Slowest |
+1. Authenticate with the device's **admin password**
+2. Send CLI commands as direct messages
+3. The device processes them and responds over the air
 
-Higher spreading factors (SF11-12) can extend range by 2-3× but dramatically increase airtime and power consumption.
-
-## GPS and Location
-
-- **GPS enabled** — uses the onboard GPS module for automatic positioning
-- **Fixed location** — manually enter lat/lon if GPS is unavailable or for stationary nodes
-- **Update interval:** How often the node broadcasts its position (default: 300 seconds)
-
-## MQTT Gateway
-
-MQTT configuration requires:
-
-1. **Server address** — hostname or IP of the MQTT broker
-2. **Port** — typically 1883 (unencrypted) or 8883 (TLS)
-3. **Username/password** — if authentication is required
-4. **Topic prefix** — base topic for mesh messages (e.g. `meshcore/network_name`)
-
-## Firmware Updates
-
-MeshCore supports over-the-air (OTA) updates. Check the admin panel for available updates, or flash via USB using the web flasher for major version upgrades.
-
-> ⚠️ Always back up your configuration before performing a firmware update.
+The default admin password is set during first-time setup. Change it using:
+```
+set password <new-password>
+```
