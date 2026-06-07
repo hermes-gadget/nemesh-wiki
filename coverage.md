@@ -39,11 +39,11 @@ All nodes in the North East mesh should use the same radio settings to communica
 - **Add repeaters** — each repeater extends the mesh and provides alternative routing paths
 - **Elevate antennas** — place repeaters as high as practical (roof height or higher)
 - **Use line of sight** — position repeaters with clear paths to neighbouring nodes
-- **Use the right antenna** — a good antenna tuned for 869 MHz is the most effective upgrade. Quarter-wave whip ≈ 17 cm for 868 MHz
+- **Use the right antenna** — a good antenna tuned for 868/869 MHz is the most effective upgrade. A quarter-wave whip is only ≈ 8.2 cm at 868 MHz, so check any whip is cut for this band
 
 ## Path-Based Routing vs Flood
 
-MeshCore uses **path-based routing** (not flood-based). Messages follow a specific sequence of repeaters to their destination. This means:
+MeshCore uses **hybrid path-based routing** — it floods only briefly to discover a destination, then messages follow a specific learned sequence of repeaters. This means:
 
 - Coverage is not simply "all nodes within range of any node" — routes must exist through repeaters
 - A client within radio range of a repeater has coverage to any destination that repeater can reach

@@ -8,7 +8,7 @@ description: What MeshCore is and how mesh networking works
 
 MeshCore is a lightweight, portable C++ library for multi-hop packet routing over LoRa radio. It enables secure, text-based communication without the internet or any central infrastructure.
 
-Unlike flood-based mesh systems, MeshCore uses **path-based routing** — nodes learn the most efficient route to a destination and use it for subsequent messages, minimising airtime and collisions.
+Unlike pure flood-based mesh systems, MeshCore uses **hybrid path-based routing** — after an initial flood to discover a destination, nodes learn the most efficient route and use it for subsequent messages, minimising airtime and collisions.
 
 ## Firmware Types
 
@@ -36,8 +36,8 @@ If a path breaks, the client retries and falls back to flood automatically.
 ## Key Properties
 
 - **Decentralised** — no servers, no internet, no single point of failure
-- **Path-based routing** — efficient, low-airtime multi-hop
-- **Public-key cryptography** — Ed25519 for identity and encryption
+- **Hybrid path-based routing** — efficient, low-airtime multi-hop
+- **Public-key cryptography** — Ed25519 node identities; messages are AES-encrypted using per-contact keys derived via X25519 (ECDH)
 - **Open source** — MIT license
 - **Multi-platform** — runs on ESP32, nRF52, and other MCUs
 

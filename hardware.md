@@ -13,10 +13,10 @@ MeshCore runs on a variety of LoRa-equipped devices. For the most up-to-date lis
 A handheld device with keyboard and display — a complete off-grid communicator out of the box.
 
 - **MCU:** ESP32-S3
-- **LoRa:** SX1262 (868/915 MHz)
-- **Display:** 2.13-inch e-ink (T-Deck) or 2.8-inch TFT (T-Deck Plus)
-- **Input:** QWERTY keyboard
-- **Extras:** GPS, microSD slot, speaker, Wi-Fi/Bluetooth
+- **LoRa:** SX1262 (433/868/915 MHz)
+- **Display:** 2.8-inch IPS LCD (320×240), capacitive touch — same on both T-Deck and T-Deck Plus
+- **Input:** QWERTY keyboard + trackball
+- **Extras:** microSD slot, microphone, speaker, Wi-Fi/Bluetooth. The **T-Deck Plus** adds a built-in GPS module and a larger 2000 mAh battery (the original T-Deck has a GPS socket but no module fitted)
 
 ### Heltec V3
 
@@ -35,38 +35,40 @@ An nRF52-based LoRA board in modular form factor. Commonly used as a companion o
 - **LoRa:** SX1262
 - **Extras:** Bluetooth only (no Wi-Fi)
 
-### Heltec T114
+### Heltec Mesh Node T114
 
-A compact nRF52 device with LoRa and optional GPS.
-
-- **MCU:** nRF52840
-- **LoRa:** SX1262
-- **Extras:** Bluetooth, optional GPS
-
-### Seeed Studio T1000-E
-
-A tiny, battery-powered LoRa tracker.
+A compact nRF52 device with LoRa and an optional GPS module.
 
 - **MCU:** nRF52840
 - **LoRa:** SX1262
-- **Battery:** Built-in rechargeable
-- **Extras:** Bluetooth
+- **Display:** 1.14-inch TFT colour display
+- **Extras:** Bluetooth, optional GPS, 18650 battery holder
 
-### LilyGo T-Pager
+### Seeed Studio SenseCAP T1000-E
 
-A LoRa pager-style device with a small display.
+A tiny, credit-card-sized battery-powered LoRa tracker.
+
+- **MCU:** nRF52840
+- **LoRa:** Semtech **LR1110** (combined LoRa transceiver, GNSS scanner and Wi-Fi scanner) — *not* an SX1262
+- **Battery:** Built-in 700 mAh rechargeable
+- **Extras:** Bluetooth, built-in GPS, IP65-rated enclosure
+
+### LilyGo T-LoRa Pager
+
+A pager-style handheld communicator.
 
 - **MCU:** ESP32-S3
 - **LoRa:** SX1262
-- **Display:** Round LCD
-- **Extras:** Wi-Fi/Bluetooth, vibration motor
+- **Display:** 2.33-inch IPS strip display (480×222)
+- **Input:** QWERTY keyboard + rotary encoder
+- **Extras:** Wi-Fi/Bluetooth, GNSS, NFC/RFID, 6-axis IMU, microSD
 
 ## Antennas
 
 Antenna choice significantly affects range:
 
-- **Quarter-wave whip** (≈17 cm for 868 MHz, ≈16 cm for 915 MHz) — good all-rounder
-- **Half-wave dipole** — better gain, narrower pattern
+- **Quarter-wave whip** (≈8.2 cm for 868 MHz, ≈7.8 cm for 915 MHz) — good all-rounder
+- **Half-wave dipole** (≈16–17 cm element for 868 MHz) — better gain, narrower pattern
 - **High-gain directional** — for fixed point-to-point links
 
 A poorly matched or low-quality antenna will severely limit performance. Use an antenna designed for your operating frequency.
