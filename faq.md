@@ -8,7 +8,7 @@ description: Frequently asked questions about MeshCore
 
 ### What is MeshCore?
 
-MeshCore is an open-source (MIT) C++ library for multi-hop packet routing over LoRa radio. It provides secure, decentralised text messaging without the internet. Unlike flood-based mesh systems, it uses **path-based routing** for efficiency.
+MeshCore is an open-source (MIT) C++ library for multi-hop packet routing over LoRa radio. It provides secure, decentralised text messaging without the internet. Unlike pure flood-based mesh systems, it uses **hybrid path-based routing** for efficiency.
 
 ### What do I need to start?
 
@@ -16,7 +16,7 @@ MeshCore is an open-source (MIT) C++ library for multi-hop packet routing over L
 - A computer with Chrome/Edge to flash firmware via [flasher.meshcore.io](https://flasher.meshcore.io)
 - A client app: [Android](https://play.google.com/store/apps/details?id=com.liamcottle.meshcore.android), [iOS](https://apps.apple.com/us/app/meshcore/id6742354151), or [web app](https://app.meshcore.nz)
 
-If you have a T-Deck with MeshCore Ultra firmware, it works standalone — no phone needed.
+If you have a T-Deck running Ripple's standalone **T-Deck "Ultra"** firmware, it works standalone — no phone needed.
 
 ### Does MeshCore cost money?
 
@@ -49,7 +49,7 @@ The appropriate frequency depends on your local MeshCore community. If the conse
 
 ### What is the default MeshCore frequency?
 
-The MeshCore firmware default is **869.525 MHz** with BW250, SF11, CR5 — the "wide" preset. The narrow preset (BW62.5, lower SF) is now recommended for most regions due to better interference resilience.
+MeshCore's original EU/UK default was **869.525 MHz** with BW250, SF11, CR5 — the "wide" preset. The narrow preset (BW62.5, lower SF) is now recommended for most regions due to better interference resilience.
 
 ### What is an advert?
 
@@ -114,7 +114,7 @@ Flash **Companion (BLE)** firmware. The default BLE pairing code is `123456`.
 
 ### My repeater's clock is wrong
 
-Use the `time` command via USB serial console, or use remote administration over RF to set the correct Unix timestamp.
+Check it with `clock` (shown in UTC). Set it with `time <epoch_seconds>` over the USB serial console, or use remote administration over RF to send the correct Unix timestamp. GPS-equipped nodes can also use `gps sync`.
 
 ### How do I update firmware over the air?
 

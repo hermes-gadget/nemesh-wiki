@@ -12,7 +12,7 @@ The North East England MeshCore network uses the **narrow preset** within the 86
 
 | Parameter | Value | Notes |
 |-----------|-------|-------|
-| **Frequency** | **869.618 MHz** | Within UK 869.4–869.65 MHz band |
+| **Frequency** | **869.618 MHz** | Within the UK 869.4–869.65 MHz sub-band (up to 500 mW ERP at ≤10% duty cycle) |
 | **Bandwidth** | **62.5 kHz** | Narrow preset — fits between ISM band interference |
 | **Spreading Factor** | **SF8** | Good balance of range and data rate |
 | **Coding Rate** | **5** | Standard forward error correction |
@@ -35,7 +35,7 @@ The appropriate transmit power depends on your device. As a guideline:
 - **Most ESP32 boards (Heltec V3, T-Deck):** start at 10–14 dBm
 - **High-power modules (Station G2, E22-900M30S):** consult manufacturer specs — wrong settings can damage hardware
 
-Set with: `set tx <dBm>`
+Set with: `set tx <dBm>`. The firmware accepts values from **1 to 22 dBm**; any further gain must come from the antenna while staying within the legal ERP limit for the band.
 
 ## Companion Firmware
 
@@ -58,20 +58,25 @@ Repeaters and room servers use a **CLI over USB serial** or **remote administrat
 | Command | Description |
 |---------|-------------|
 | `set freq <MHz>` | Set operating frequency (e.g. `set freq 869.618`) |
-| `set radio <freq>,<bw>,<sf>,<cr>` | Set all radio params at once |
+| `set radio <freq>,<bw>,<sf>,<cr>` | Set all radio params at once (reboot afterwards) |
 | `get freq` | Show current frequency |
-| `set tx <dBm>` | Set transmit power |
+| `get radio` | Show current radio parameters (freq/BW/SF/CR) |
+| `set tx <dBm>` | Set transmit power (1–22 dBm) |
 | `get tx` | Show current transmit power |
-| `set repeat on/off` | Enable or disable packet repeating |
+| `set repeat <on/off>` | Enable or disable packet repeating |
 | `set flood.max <n>` | Set maximum flood hop count |
 | `set name <name>` | Set node name |
-| `set location <lat> <lon>` | Set fixed location |
+| `set lat <degrees>` | Set node latitude |
+| `set lon <degrees>` | Set node longitude |
 | `password <new-password>` | Change admin password |
-| `time` | Show or set the node's clock |
+| `clock` | Show the node's clock (UTC) |
+| `time <epoch_seconds>` | Set the clock to a Unix timestamp |
+| `advert` | Send a flood advert |
 | `start ota` | Enter OTA update mode |
-| `get stats` | Show node statistics |
-| `get neighbors` | Show known neighbouring nodes |
-| `get config` | Show all configuration values |
+| `stats-core` | Show system stats (battery, uptime, queue) |
+| `stats-radio` | Show radio stats (noise floor, RSSI/SNR, airtime) |
+| `stats-packets` | Show packet counters (sent/received) |
+| `neighbors` | Show known neighbouring nodes (repeater only) |
 
 Full reference: [docs.meshcore.io/cli_commands](https://docs.meshcore.io/cli_commands)
 
@@ -84,3 +89,5 @@ To administer a repeater or room server over RF:
 3. The device processes them and responds over the air
 
 Change the default password with: `password <new-password>`
+
+> **Change the defaults.** Repeaters and room servers ship with the admin password `password`, and room servers also have a guest (read-only) password defaulting to `hello`. Set your own before deploying a node so others can't reconfigure it.

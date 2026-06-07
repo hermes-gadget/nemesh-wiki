@@ -61,7 +61,7 @@ Open [app.meshcore.nz](https://app.meshcore.nz) and connect via USB Serial.
 
 ### T-Deck
 
-If you have a T-Deck with MeshCore Ultra firmware, it works as a standalone communicator — no phone needed.
+If you have a T-Deck running Ripple's standalone **T-Deck "Ultra"** firmware, it works as a standalone communicator — no phone needed.
 
 ## 5. Start Messaging
 
