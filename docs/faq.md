@@ -12,7 +12,7 @@ MeshCore is an open-source (MIT) C++ library for multi-hop packet routing over L
 
 ### What do I need to start?
 
-- A supported LoRa device (see [Hardware](/hardware))
+- A supported LoRa device (see [Hardware](hardware.md))
 - A computer with Chrome/Edge to flash firmware via [flasher.meshcore.io](https://flasher.meshcore.io)
 - A client app: [Android](https://play.google.com/store/apps/details?id=com.liamcottle.meshcore.android), [iOS](https://apps.apple.com/us/app/meshcore/id6742354151), or [web app](https://app.meshcore.nz)
 

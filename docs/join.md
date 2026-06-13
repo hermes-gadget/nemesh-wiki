@@ -14,7 +14,7 @@ You need a supported LoRa device. Good options for beginners:
 - **Heltec V3** — compact development board (use with smartphone app)
 - **RAK4631** — modular WisBlock, very power-efficient (nRF52)
 
-See the [Hardware](/hardware) page for more options. Visit [flasher.meshcore.io](https://flasher.meshcore.io) for the full list of supported boards.
+See the [Hardware](hardware.md) page for more options. Visit [flasher.meshcore.io](https://flasher.meshcore.io) for the full list of supported boards.
 
 ## 2. Flash the Firmware
 

@@ -12,12 +12,12 @@ This is the documentation hub for the **North East MeshCore Network** — a comm
 
 | Page | What you'll find |
 |------|-----------------|
-| [About](/about) | What MeshCore is and how path-based routing works |
-| [Join](/join) | Step-by-step guide to get on the mesh |
-| [Hardware](/hardware) | Supported devices and buying advice |
-| [Configuration](/configuration) | Radio settings, CLI commands, remote admin |
-| [Coverage](/coverage) | How coverage works and how to extend it |
-| [FAQ](/faq) | Common questions and troubleshooting |
+| [About](about.md) | What MeshCore is and how path-based routing works |
+| [Join](join.md) | Step-by-step guide to get on the mesh |
+| [Hardware](hardware.md) | Supported devices and buying advice |
+| [Configuration](configuration.md) | Radio settings, CLI commands, remote admin |
+| [Coverage](coverage.md) | How coverage works and how to extend it |
+| [FAQ](faq.md) | Common questions and troubleshooting |
 
 ## Radio Settings (North East UK)
 
