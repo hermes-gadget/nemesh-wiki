@@ -4,7 +4,7 @@ description: Supported hardware for running MeshCore
 ---
 # Hardware
 
-MeshCore runs on a variety of LoRa-equipped devices. For the most up-to-date list, visit the [MeshCore Flasher](https://meshcore.io/flasher) which lists all supported boards with ready-to-flash firmware.
+MeshCore runs on a variety of LoRa-equipped devices. For the most up-to-date list, visit the [MeshCore Flasher](https://flasher.meshcore.io) which lists all supported boards with ready-to-flash firmware.
 
 ## Popular Devices
 
