@@ -45,7 +45,7 @@ Set via serial CLI: `set freq 869.618` then `set radio 869.618,62.5,8,5` then re
 
 ### What if I want to use a different frequency?
 
-The appropriate frequency depends on your local MeshCore community. If the consensus in your area changes, post an update request on the [#meshcore-app channel](https://discord.com/channels/1343693475589263471/1391681655911088241) on the [MeshCore Discord](https://meshcore.gg) so the app presets can be updated.
+The appropriate frequency depends on your local MeshCore community. If the consensus in your area changes, post an update request on the [#meshcore-app channel](https://discord.com/channels/1343693475589263471/1391681655911088241) on the [MeshCore Discord](https://discord.gg/GyWBxsytQg) so the app presets can be updated.
 
 ### What is the default MeshCore frequency?
 

@@ -11,3 +11,5 @@ title: Sidebar
 - 📡 **Network**
   - [🗺️ Coverage](/coverage)
   - [🛠️ Configuration](/configuration)
+- 💬 **Community**
+  - [💬 MeshCore Discord](https://discord.gg/GyWBxsytQg)

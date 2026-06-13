@@ -34,6 +34,17 @@ All nodes in the North East mesh should use the same radio settings to communica
 | **Spreading Factor** | Higher SF = longer range, slower data, more airtime |
 | **Bandwidth** | Narrower BW fits between interference but reduces data rate |
 
+### Typical Range Estimates (Narrow Preset, SF8)
+
+| Terrain | Typical Range |
+|---------|--------------|
+| Dense urban (buildings, walls) | 500 m – 2 km |
+| Suburban / light urban | 2 – 5 km |
+| Rural / open fields | 5 – 10 km |
+| Elevated line-of-sight (hilltop to hilltop) | 10 – 20+ km |
+
+These are estimates — actual range depends heavily on antenna quality, placement, local noise floor, and obstacles.
+
 ## Improving Coverage
 
 - **Add repeaters** — each repeater extends the mesh and provides alternative routing paths
