@@ -6,7 +6,7 @@ description: nemesh.uk Wiki home page
 
 This is the documentation hub for the **North East MeshCore Network** — a community mesh network serving the North East of England.
 
-> **ℹ️ teessidemesh.com is being retired** — if you arrived via an old link, you're in the right place. Everything has moved to [nemesh.uk](https://nemesh.uk).
+> **ℹ️ `teessidemesh.com` is being retired** — if you arrived via an old link, you're in the right place. Everything has moved to [nemesh.uk](https://nemesh.uk).
 
 ## Getting Started
 
