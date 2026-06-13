@@ -1,0 +1,58 @@
+site_name: nemesh.uk Wiki
+site_description: Documentation for the North East MeshCore Network
+site_url: https://wiki.nemesh.uk
+repo_url: https://github.com/hermes-gadget/nemesh-wiki
+edit_uri: edit/main/docs/
+docs_dir: docs
+
+theme:
+  name: material
+  palette:
+    # Dark mode as default (first = default)
+    - scheme: slate
+      primary: indigo
+      accent: light blue
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - search.suggest
+    - search.highlight
+    - content.action.edit
+    - content.code.copy
+  icon:
+    repo: fontawesome/brands/github
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - tables
+
+plugins:
+  - search
+
+nav:
+  - Home: index.md
+  - About:
+      - About MeshCore: about.md
+      - FAQ: faq.md
+  - Getting Connected:
+      - Join the Network: join.md
+      - Hardware: hardware.md
+  - Network:
+      - Coverage: coverage.md
+      - Configuration: configuration.md

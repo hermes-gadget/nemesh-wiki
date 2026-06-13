@@ -1,16 +1,35 @@
----
-title: README
-description: nemesh-wiki repository README
----
 # nemesh-wiki
 
 Documentation wiki for [nemesh.uk](https://nemesh.uk) — the North East MeshCore network.
 
-This repository is the **source of truth** for the Wiki.js documentation site at wiki.nemesh.uk. All content is written in Markdown with YAML frontmatter.
+Built with [MkDocs](https://www.mkdocs.org/) + [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
+
+## Structure
+
+```
+├── mkdocs.yml          # MkDocs configuration
+├── README.md           # This file
+└── docs/               # All wiki pages (Markdown)
+    ├── index.md        # Home page
+    ├── about.md        # About MeshCore
+    ├── faq.md          # Frequently Asked Questions
+    ├── join.md         # How to join the network
+    ├── hardware.md     # Supported hardware
+    ├── coverage.md     # Network coverage
+    └── configuration.md # Radio settings & CLI
+```
 
 ## Editing
 
-Edit any `.md` file in this repo and commit — Wiki.js will automatically pull updates within minutes.
+Edit any `.md` file in `docs/` and open a PR. On merge, the site rebuilds automatically within 5 minutes.
+
+## Building locally
+
+```bash
+pip install mkdocs-material
+mkdocs build   # → site/
+mkdocs serve   # → http://localhost:8000
+```
 
 ## License
 
