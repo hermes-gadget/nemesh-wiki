@@ -56,3 +56,4 @@ nav:
   - Network:
       - Coverage: coverage.md
       - Configuration: configuration.md
+      - Region Scoping: region-scoping.md
